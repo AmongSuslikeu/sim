@@ -273,8 +273,6 @@ def server_tick():
             logging.exception("Exception in server_tick")
         socketio.sleep(TICK_RATE)
 
-threading.Thread(target=server_tick, daemon=True).start()
-
 # --- Socket handlers ---
 @socketio.on('join')
 def on_join():
@@ -1177,16 +1175,18 @@ HTML_DATA = r"""
 def index():
     return render_template_string(HTML_DATA)
 
-port = int(os.environ.get("PORT", 5000))
-try:
+if __name__ == "__main__":
+    threading.Thread(target=server_tick, daemon=True).start()
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    logging.info(f"Starting server on port {port}")
+
     socketio.run(
         app,
         host="0.0.0.0",
-        port=int(os.environ.get("PORT", 5000)),
+        port=port,
         debug=False,
         allow_unsafe_werkzeug=True
     )
 
-    logging.exception("Server is running")
-except Exception:
-    logging.exception("Server crashed on run")
