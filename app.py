@@ -1182,7 +1182,14 @@ HTML_DATA = r"""
 
 port = int(os.environ.get("PORT", 5000))
 try:
-    socketio.run(app, host='0.0.0.0', port=5000, debug=False)
+    socketio.run(
+        app,
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=False,
+        allow_unsafe_werkzeug=True
+    )
+
     logging.exception("Server is running")
 except Exception:
     logging.exception("Server crashed on run")
