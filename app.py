@@ -478,13 +478,6 @@ def assistant():
         logging.exception("assistant error")
         return jsonify({'resp': "Assistant error."}), 500
 
-@app.route('/')
-def index():
-    return render_template_string(HTML_DATA)
-
-# ============================================================
-#                      CLIENT HTML + JS
-# ============================================================
 HTML_DATA = r"""
 <!DOCTYPE html>
 <html>
@@ -1179,6 +1172,10 @@ HTML_DATA = r"""
 </body>
 </html>
 """
+
+@app.route('/')
+def index():
+    return render_template_string(HTML_DATA)
 
 port = int(os.environ.get("PORT", 5000))
 try:
