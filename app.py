@@ -1176,11 +1176,11 @@ def index():
     return render_template_string(HTML_DATA)
 
 if __name__ == "__main__":
-    threading.Thread(target=server_tick, daemon=True).start()
-
-if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     logging.info(f"Starting server on port {port}")
+
+    # start server tick AFTER app is fully defined
+    threading.Thread(target=server_tick, daemon=True).start()
 
     socketio.run(
         app,
@@ -1189,4 +1189,5 @@ if __name__ == "__main__":
         debug=False,
         allow_unsafe_werkzeug=True
     )
+
 
