@@ -271,7 +271,8 @@ def server_tick():
             })
         except Exception:
             logging.exception("Exception in server_tick")
-        socketio.sleep(TICK_RATE)
+        time.sleep(TICK_RATE)
+
 
 # --- Socket handlers ---
 @socketio.on('join')
@@ -1176,11 +1177,10 @@ def index():
     return render_template_string(HTML_DATA)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     logging.info(f"Starting server on port {port}")
 
-    # start server tick AFTER app is fully defined
-    threading.Thread(target=server_tick, daemon=True).start()
+    socketio.start_background_task(server_tick)
 
     socketio.run(
         app,
