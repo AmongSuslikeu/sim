@@ -1179,10 +1179,10 @@ HTML_DATA = r"""
 </body>
 </html>
 """
-# ...existing code...
-if __name__ == '__main__':
-    logging.info("Starting server")
-    try:
-        socketio.run(app, host='0.0.0.0', port=5000, debug=False)
-    except Exception:
-        logging.exception("Server crashed on run")
+
+port = int(os.environ.get("PORT", 5000))
+try:
+    ocketio.run(app, host='0.0.0.0', port=5000, debug=False)
+    logging.exception("Server is running")
+except Exception:
+    logging.exception("Server crashed on run")
